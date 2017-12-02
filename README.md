@@ -79,18 +79,23 @@ $paginator = Factory::load($options);
 <?php
 use Phalcon\Paginator\Adapter\QueryBuilder as PaginatorQueryBuilder;
 
-$builder = phalcon_builder()
-                ->columns('id, name')
-                ->from('Robots')
-                ->orderBy('name');
-                
-$paginator = new PaginatorQueryBuilder(
-    [
-        'builder' => $builder,
-        'limit'   => 20,
-        'page'    => 1,
-    ]
-);
+        $builder = phalcon_builder()
+            ->columns('id, name')
+            ->from(Subscription::class)
+            ->orderBy('name');
+
+        $paginator = new PaginatorQueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 20,
+                'page'    => 1,
+            ]
+        );
+
+        return json([
+            'model' => (Subscription::class),
+            'data' => $paginator->getPaginate()
+        ]);
 ```
 
 
