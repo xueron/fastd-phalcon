@@ -1,19 +1,23 @@
 {
-    "name": "xueron/fastd-phalcon",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Xueron",
-            "email": "xueron@xueron.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.6",
-        "ext-phalcon": "^3.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "Xueron\\FastDPhalcon\\": "src"
-        }
+  "name": "xueron/fastd-phalcon",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Xueron",
+      "email": "xueron@xueron.com"
     }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "ext-phalcon": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Xueron\\FastDPhalcon\\": "src"
+    },
+    "files": [
+      "helpers.php"
+    ]
+  }
 }

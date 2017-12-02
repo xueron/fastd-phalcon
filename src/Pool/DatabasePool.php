@@ -148,13 +148,13 @@ class DatabasePool implements PoolInterface
         }
 
         // 打开数据库调试日志
-        if (config()->get('phalcon.debug', true)) {
+        if (config()->get('phalcon.debug', false)) {
             $this->di->getEventsManager()->attach('db', new DatabaseListener());
         }
 
         // 插入一个定时器，定时连一下数据库，防止IDEL超时断线
-        if (config()->get('phalcon.antiidle', true)) {
-            $interval = config()->get('phalcon.interval', 10) * 1000; // 定时器间隔
+        if (config()->get('phalcon.antiidle', false)) {
+            $interval = config()->get('phalcon.interval', 100) * 1000; // 定时器间隔
             $maxRetry = config()->get('phalcon.maxretry', 3); // 重连尝试次数
             $timer = new AntiIdleTimer($interval, [$this, $maxRetry]);
             $timer->withServer(server());
