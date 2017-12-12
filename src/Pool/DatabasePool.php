@@ -144,7 +144,7 @@ class DatabasePool implements PoolInterface
     {
         // 创建数据库连接
         foreach ($this->config as $key => $config) {
-            $this->getConnection($key);
+            $this->getConnection($key, true);
         }
 
         // 打开数据库调试日志
