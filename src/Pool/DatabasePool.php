@@ -94,6 +94,12 @@ class DatabasePool implements PoolInterface
 
         $serviceName = 'database.' . $key;
         if ($force || !$this->di->has($serviceName)) {
+            if ($this->di->has($serviceName)) {
+                // Close first
+                $this->di->get($serviceName)->close();
+                $this->di->remove($serviceName);
+            }
+
             $config = $this->config[$key];
             $connection = new Mysql([
                 'host'       => $config['host'],

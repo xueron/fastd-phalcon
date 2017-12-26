@@ -26,14 +26,14 @@ class AntiIdleTimer extends Timer
                     logger()->log(Logger::DEBUG, "[$pid] [Database $key] [$time] AntiIdle: " . $info['server']);
                     break;
                 } catch (\Exception $e) {
-                    if (strpos($e->getMessage(), 'MySQL server has gone away') !== false) {
-                        logger()->log(Logger::ERROR, "[$pid] [Database $key] Connection lost, try to reconnect, tryTimes $tryTimes");
+                    if (preg_match("/(errno=32 Broken pipe)|(MySQL server has gone away)/", $e->getMessage())) {
+                        logger()->log(Logger::ERROR, "[$pid] [Database $key] Connection lost({$e->getMessage()}), try to reconnect, tried times $tryTimes");
                         $databasePool->reconnect($key);
                         $tryTimes ++;
                         continue;
                     }
                     logger()->log(Logger::ERROR, "[$pid] [Database $key] Quit on exception: " . $e->getMessage());
-                    exit;
+                    exit(255);
                 }
             }
         }
