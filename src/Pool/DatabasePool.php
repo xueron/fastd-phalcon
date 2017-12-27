@@ -27,14 +27,25 @@ use Xueron\FastDPhalcon\Listener\DatabaseListener;
 class DatabasePool implements PoolInterface
 {
     /**
+     * Phalcon容器
+     *
      * @var \Phalcon\Di
      */
     protected $di;
 
     /**
+     * 数据库配置
+     *
      * @var array
      */
     protected $config;
+
+    /**
+     * 定时器
+     *
+     * @var int
+     */
+    protected $timerId;
 
     /**
      * Database constructor.
@@ -148,6 +159,11 @@ class DatabasePool implements PoolInterface
      */
     public function initPool()
     {
+        if ($this->timerId) {
+            swoole_timer_clear($this->timerId);
+            $this->timerId = null;
+        }
+
         // 创建数据库连接
         foreach ($this->config as $key => $config) {
             $this->getConnection($key, true);
@@ -164,7 +180,7 @@ class DatabasePool implements PoolInterface
             $maxRetry = config()->get('phalcon.maxretry', 3); // 重连尝试次数
             $timer = new AntiIdleTimer($interval, [$this, $maxRetry]);
             $timer->withServer(server());
-            $timer->tick();
+            $this->timerId = $timer->tick();
         }
     }
 }
