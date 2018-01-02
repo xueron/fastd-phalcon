@@ -57,7 +57,7 @@ class DatabasePool implements PoolInterface
         $this->config = $config;
 
         // 初始化Phalcon的DI容器
-        $di = new \Phalcon\Di();
+        $di = new Di();
         $di->setShared('annotations', Memory::class);
         $di->setShared('modelsManager', Manager::class);
         $di->setShared('modelsMetadata', MemoryMetadata::class);
@@ -179,7 +179,6 @@ class DatabasePool implements PoolInterface
             $interval = config()->get('phalcon.interval', 100) * 1000; // 定时器间隔
             $maxRetry = config()->get('phalcon.maxretry', 3); // 重连尝试次数
             $timer = new AntiIdleTimer($interval, [$this, $maxRetry]);
-            $timer->withServer(server());
             $this->timerId = $timer->tick();
         }
     }
