@@ -10,12 +10,6 @@ namespace Xueron\FastDPhalcon\Pool;
 
 use FastD\Pool\PoolInterface;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Di;
-use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\MetaData\Memory as MemoryMetadata;
-use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Xueron\FastDPhalcon\Timer\AntiIdleTimer;
 use Xueron\FastDPhalcon\Listener\DatabaseListener;
 
@@ -56,15 +50,7 @@ class DatabasePool implements PoolInterface
     {
         $this->config = $config;
 
-        // 初始化Phalcon的DI容器
-        $di = new Di();
-        $di->setShared('annotations', Memory::class);
-        $di->setShared('modelsManager', Manager::class);
-        $di->setShared('modelsMetadata', MemoryMetadata::class);
-        $di->setShared('eventsManager', EventsManager::class);
-        $di->setShared('transactionManager', TransactionManager::class);
-
-        $this->di = $di;
+        $this->di = app()->get('phalcon');
     }
 
     /**
