@@ -1,5 +1,13 @@
 <?php
 /**
+ * @return \Phalcon\Di
+ */
+function phalcon()
+{
+    return app()->get('phalcon');
+}
+
+/**
  * @param string $name
  *
  * @return \Phalcon\Db\Adapter
@@ -16,6 +24,6 @@ function phalcon_db($name = 'default')
  */
 function phalcon_builder($params = null)
 {
-    return app()->get('phalcon_db')->getDi()->getModelsManager()->createBuilder($params);
+    return phalcon()->getModelsManager()->createBuilder($params);
 }
 
