@@ -10,7 +10,8 @@
   ],
   "require": {
     "php": ">=5.6",
-    "ext-phalcon": "^3.2"
+    "ext-phalcon": "^3.2",
+    "fastd/fastd": "^3.2"
   },
   "autoload": {
     "psr-4": {
